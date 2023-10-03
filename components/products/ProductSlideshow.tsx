@@ -5,32 +5,27 @@ import 'react-slideshow-image/dist/styles.css';
 import styles from './ProductSlideshow.module.css';
 
 interface Props {
-    images: string[]
+    images: string[];
 }
 
 export const ProductSlideshow: FC<Props> = ({ images }) => {
-  return (
-    <Slide
-        easing="ease"
-        duration={ 7000 }
-        indicators
-    >
-        {
-            images.map( image =>  {
-                const url = `/products/${ image }`;
-                return (
-                    <div className={ styles['each-slide'] } key={ image }>
-                        <div style={{
-                            backgroundImage: `url(${ url })`,
-                            backgroundSize: 'cover'
-                        }}>
-                        </div>
+    const slideImages = images.map((image) => `/products/${image}`);
+
+    return (
+        <div className={styles['slide-container']}>
+            <Slide
+                images={slideImages}
+                easing="ease"
+                duration={7000}
+                indicators
+            >
+                {slideImages.map((url, index) => (
+                    <div className={styles['each-slide']} key={index}>
+                        <div style={{ backgroundImage: `url(${url})`, backgroundSize: 'cover' }}></div>
                     </div>
-                )
+                ))}
+            </Slide>
+        </div>
+    );
+};
 
-            })
-        }
-
-    </Slide>
-  )
-}
